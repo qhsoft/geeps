@@ -1,4 +1,0 @@
-[submodule "apps/caffe"]
-	path = apps/caffe
-	url = git@github.com:cuihenggang/caffe.git
-	branch = cui-geeps
