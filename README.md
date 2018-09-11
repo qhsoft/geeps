@@ -10,10 +10,10 @@
 Run the following command to download GeePS and (our slightly modified) Caffe:
 
 ```
-git clone --recurse-submodules https://github.com/cuihenggang/geeps.git
+git clone https://github.com/qhsoft/geeps.git
 ```
 
-If you use the Ubuntu 14.04 system, you can run the following commands (from geeps root directory) to install the dependencies:
+If you use the Ubuntu 16.04 system, you can run the following commands (from geeps root directory) to install the dependencies:
 
 ```
 ./scripts/install-geeps-deps-ubuntu14.sh
@@ -21,6 +21,11 @@ If you use the Ubuntu 14.04 system, you can run the following commands (from gee
 ```
 
 Also, please make sure your CUDA library is installed in `/usr/local/cuda`.
+
+When you already installed CUDA library,run:
+```
+sh ldcuda.sh
+```
 
 After installing the dependencies, you can build GeePS by simply running this command from geeps root directory:
 
