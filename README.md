@@ -16,9 +16,11 @@ git clone https://github.com/qhsoft/geeps.git
 If you use the Ubuntu 16.04 system, you can run the following commands (from geeps root directory) to install the dependencies:
 
 ```
-./scripts/install-geeps-deps-ubuntu14.sh
-./scripts/install-caffe-deps-ubuntu14.sh
+./scripts/install-geeps-deps-ubuntu16.sh
+./scripts/install-caffe-deps-ubuntu16.sh
 ```
+
+本代码需要CUDA 9 SDK和对应的cudnn sdk支持
 
 Also, please make sure your CUDA library is installed in `/usr/local/cuda`.
 
