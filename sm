@@ -1,0 +1,23 @@
+1、 对原版caffe的修改主要在以下两方面：
+    a) 新建caffe_geeps.cpp，编译结果为caffe_geeps的可执行文件，位于tools目录，原版训练使用的是caffe，geeps版则执行caffe_geeps来训练
+    b) 修改src/caffe/solver.cpp，这是真正执行训练的代码，Forward、Backward都在这里。Geeps采用类似hook的方式，事先按layer建立了一系列的Hook对象，放入全局列表中。
+    之后在Solver::Step()中，每一次迭代，通过调用
+    ```
+    loss = ForwardBackwardUsingPs(bottom_vec, this->net_, test, do_snapshot);
+    ```
+    获得loss。
+    真正跟geeps相关的执行代码主要在ForwardBackwardUsingPs函数中。
+    看代码发现，作者仅实现了float型的参数：
+    ```
+    float SGDSolver<float>::ForwardBackwardUsingPs(...)
+    ```
+    在这个函数中Forward和Backward过程，都会去执行geeps的参数管理操作。
+
+2、 geeps的参数管理操作代码在clientlib中。
+
+3、 主机通过pdsh，让work机执行caffe_geeps进行训练。
+
+4、 主机和work机通讯仅通过pdsh实现
+    每台work机会侦听num_channels个端口，端口号为：tcp_base_port+channel_id,默认tcp_base_port为9090.
+    work机和work机，通过上述的num_channels个端口进行P2P通讯
+    本条结论通过源码、pdsh命令帮助、netstat --listening -p命令等方式结合猜测所得。尚需继续验证
