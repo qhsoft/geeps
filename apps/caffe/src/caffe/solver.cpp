@@ -1357,6 +1357,7 @@ float SGDSolver<float>::ForwardBackwardUsingPs(
         ps_->PostLocalAccess(handle);
       }
 #endif
+      /* 同步单个流：等待该流上的命令都完成 */
       CUDA_CHECK(cudaStreamSynchronize(Caffe::cuda_stream()));
       if (!test) {
         layer_info.bw_write_time +=

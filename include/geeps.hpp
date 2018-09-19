@@ -78,6 +78,15 @@ class GeePs {
   void StartIterations();
 
   /* Interfaces for virtual iteration */
+  /* 最后的slack，用于控制系统是运行在BSP、SSP还是完全异步。slack=0，说明允许领先0个时钟，即完全同步BSP；slack=n时，允许领先n个时钟，即SSP；slack设置为很大的值，即可无限近似于完全异步*/
+
+  /*
+     同步策略:
+     clock = (op_info.last_finished_clock + 1) - op_info.slack - 1
+     while (cached_table.data_age < clock){
+       //同步等待
+     }
+  */
   int VirtualRead(size_t table_id, const vector<size_t>& row_ids, int slack);
   int VirtualPostRead(int prestep_handle);
   int VirtualPreUpdate(size_t table_id, const vector<size_t>& row_ids);

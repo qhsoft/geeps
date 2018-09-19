@@ -67,5 +67,6 @@ int main() {
   }
 
   cout << "Finished \"training\", hello world!\n\n";
+  geeps->Shutdown();
   delete geeps;
 }

@@ -55,6 +55,7 @@ struct FetchKeep {
   FetchKeep(bool f = false, bool k = false) : fetch(f), keep(k) {}
 };
 
+//每一层一组对该层参数操作的handle（opinfo的index）
 struct LayerHandles {
   int read_handle;
   int postread_handle;
@@ -75,12 +76,13 @@ struct LayerHandles {
 };
 
 typedef std::map<int, FetchKeep> IntSet;
+//参数层，每层一个table_id，一个row_ids
 struct LayerInfo {
   bool layer_need_backward;
   vector<bool> bottom_need_backward;
-  bool local_param;
-  size_t table_id;
-  vector<size_t> row_ids;
+  bool local_param; //是否本地参数
+  size_t table_id; //表id
+  vector<size_t> row_ids; //其size 为该层参数的个数，值为0 到 size-1
   vector<size_t> history_data_row_ids;
   size_t num_vals;
   vector<ParamInfo> param_infos;
@@ -98,10 +100,11 @@ struct LayerInfo {
   vector<ImbInfo> imb_diffs_to_release_bw;
   size_t param_size;
   size_t imb_size;
-  vector<LayerHandles> layer_handles;
-  double fw_read_time;
-  double fw_compute_time;
-  double fw_write_time;
+  
+  vector<LayerHandles> layer_handles; //一组对应该层的内存操作id，实际操作的时候，其实都是调用这里的handle的。handle其实是virtualXXXX函数返回的opinfo在opseq中的索引值.
+  double fw_read_time;  //前向传递的参数读取时间
+  double fw_compute_time; //前向传递的计算时间（本层）
+  double fw_write_time;  
   double bw_read_time;
   double bw_compute_time;
   double bw_write_time;

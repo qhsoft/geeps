@@ -68,6 +68,9 @@ ClientLib::ClientLib(
   nr_threads = 0;
 
   /* Init the tablet server and communication modules */
+  /* 创建通讯通道
+     每个通道里面会创建一个后台工作线程，用于同步数据 
+  */
   CHECK_GT(num_channels, 0);
   comm_channels.resize(num_channels);
   for (uint i = 0; i < num_channels; i++) {

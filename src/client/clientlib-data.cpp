@@ -90,6 +90,8 @@ bool ClientLib::recv_row_batch(
   }
   CHECK_LE(data_age, self_clock);
   server_data_age = data_age;
+
+  /* 将缓存表的数据更新时间设置为几个服务器中本缓存表的最早的更新时间*/
   cached_table.data_age = clock_min(cached_table.per_server_data_age);
 
   RowKey *row_keys_cpu = row_keys;
@@ -201,7 +203,8 @@ int ClientLib::read_row_batch_param_cache(
 
     CHECK_LT(table_id, comm_channel.cached_tables.size());
     CachedTable& cached_table = comm_channel.cached_tables[table_id];
-  
+
+    /* 同步策略，clock = (op_info.last_finished_clock + 1) - op_info.slack - 1*/
     while (cached_table.data_age < clock) {
       if (!comm_channel.cvar->timed_wait(channel_lock,
             boost::posix_time::milliseconds(12000))) {
