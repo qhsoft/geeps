@@ -11,7 +11,8 @@ RUN apt-get -y install --no-install-recommends \
         git \
         build-essential \
         cmake \
-        apt-utils
+        apt-utils \
+        nload
 
 RUN service ssh restart
 

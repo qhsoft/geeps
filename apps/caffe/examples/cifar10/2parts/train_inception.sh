@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-pdsh -R ssh -w ^examples/cifar10/2parts/machinefile "pkill caffe_geeps"
+pdsh -R ssh -l root -w ^examples/cifar10/2parts/machinefile "pkill caffe_geeps"
 
 python scripts/duplicate.py examples/cifar10/2parts/inception_train_val.prototxt 2
 python scripts/duplicate.py examples/cifar10/2parts/inception_solver.prototxt 2
@@ -20,4 +20,9 @@ if [ "$#" -eq 1 ]; then
   LOG=$1/output.txt
 fi
 
-pdsh -R ssh -w ^examples/cifar10/2parts/machinefile "cd $(pwd) && ./build/tools/caffe_geeps train --solver=examples/cifar10/2parts/inception_solver.prototxt --ps_config=examples/cifar10/2parts/ps_config_inception --machinefile=examples/cifar10/2parts/machinefile --worker_id=%n" 2>&1 | tee ${LOG}
+pdcp -R ssh -l root -w ^examples/cifar10/2parts/machinefile examples/cifar10/2parts/inception_solver.prototxt.* /root/geeps/apps/caffe/examples/cifar10/2parts/
+
+
+pdcp -R ssh -l root -w ^examples/cifar10/2parts/machinefile examples/cifar10/2parts/inception_train_val.prototxt.* /root/geeps/apps/caffe/examples/cifar10/2parts/
+
+pdsh -R ssh -l root -w ^examples/cifar10/2parts/machinefile "cd /root/geeps/apps/caffe/ && ./build/tools/caffe_geeps train --solver=examples/cifar10/2parts/inception_solver.prototxt --ps_config=examples/cifar10/2parts/ps_config_inception --machinefile=examples/cifar10/2parts/machinefile --worker_id=%n" 2>&1 | tee ${LOG}

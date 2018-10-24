@@ -32,7 +32,7 @@ def parse_log(path_to_log):
 
     # Pick out lines of interest
     iteration = -1
-    learning_rate = float('NaN')
+    learning_rate = 0 # float('NaN')
     train_dict_list = []
     test_dict_list = []
     train_row = None
@@ -43,6 +43,10 @@ def parse_log(path_to_log):
         start_time = extract_seconds.get_start_time(f, logfile_year)
 
         for line in f:
+
+            if line.find('nr_threads') >= 0:
+                continue
+
             iteration_match = regex_iteration.search(line)
             if iteration_match:
                 iteration = float(iteration_match.group(1))
@@ -97,8 +101,9 @@ def parse_line_for_net_output(regex_obj, row, row_dict_list,
 
             row = OrderedDict([
                 ('NumIters', iteration),
-                ('Seconds', seconds),
-                ('LearningRate', learning_rate)
+                ('Seconds', seconds)
+                #,
+                #('LearningRate', learning_rate)
             ])
 
         # output_num is not used; may be used in the future
@@ -106,6 +111,8 @@ def parse_line_for_net_output(regex_obj, row, row_dict_list,
         output_name = output_match.group(2)
         output_val = output_match.group(3)
         row[output_name] = float(output_val)
+
+        row['LearningRate']=learning_rate
 
     if row and len(row_dict_list) >= 1 and len(row) == len(row_dict_list[0]):
         # The row is full, based on the fact that it has the same number of
@@ -182,7 +189,7 @@ def parse_args():
                         help='Print some extra info (e.g., output filenames)')
 
     parser.add_argument('--delimiter',
-                        default=',',
+                        default='\t',
                         help=('Column delimiter in output files '
                               '(default: \'%(default)s\')'))
 

@@ -5,10 +5,14 @@ import sys
 
 def extract_datetime_from_line(line, year):
     # Expected format: I0210 13:39:22.381027 25210 solver.cpp:204] Iteration 100, lr = 0.00992565
+
+
+
     line = line.strip().split()
-    month = int(line[0][1:3])
-    day = int(line[0][3:])
-    timestamp = line[1]
+    #print(line)
+    month = int(line[1][1:3])
+    day = int(line[1][3:])
+    timestamp = line[2]
     pos = timestamp.rfind('.')
     ts = [int(x) for x in timestamp[:pos].split(':')]
     hour = ts[0]
@@ -52,6 +56,7 @@ def extract_seconds(input_file, output_file):
     for line in lines:
         line = line.strip()
         if line.find('Iteration') != -1:
+            #print(line,line.find('Iteration'))
             dt = extract_datetime_from_line(line, log_created_year)
             elapsed_seconds = (dt - start_datetime).total_seconds()
             out.write('%f\n' % elapsed_seconds)
