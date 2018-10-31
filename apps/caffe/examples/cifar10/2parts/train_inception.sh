@@ -5,7 +5,7 @@ pdsh -R ssh -l root -w ^examples/cifar10/2parts/machinefile "pkill caffe_geeps"
 python scripts/duplicate.py examples/cifar10/2parts/inception_train_val.prototxt 2
 python scripts/duplicate.py examples/cifar10/2parts/inception_solver.prototxt 2
 
-LOG=output.txt
+LOG=logs2/log-data
 
 if [ "$#" -eq 1 ]; then
   mkdir $1
