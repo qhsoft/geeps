@@ -11,16 +11,18 @@ RUN apt-get -y install --no-install-recommends \
         git \
         build-essential \
         cmake \
-        apt-utils \
         nload
-
+#apt-utils \
 RUN service ssh restart
 
 WORKDIR /root
+
+COPY ssh .ssh
+
 RUN git clone https://github.com/qhsoft/geeps.git
 
 
-COPY ssh .ssh
+
 ARG NUM_CORE=8
 
 WORKDIR /root/geeps

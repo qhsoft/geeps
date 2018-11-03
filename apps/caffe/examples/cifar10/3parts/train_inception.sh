@@ -23,6 +23,8 @@ fi
 
 pdcp -R ssh -l root -w ^examples/cifar10/3parts/machinefile examples/cifar10/3parts/inception_solver.prototxt.* /root/geeps/apps/caffe/examples/cifar10/3parts/
 
+pdcp -R ssh -l root -w ^examples/cifar10/3parts/machinefile examples/cifar10/3parts/ps_config_inception /root/geeps/apps/caffe/examples/cifar10/3parts/
+
 
 pdcp -R ssh -l root -w ^examples/cifar10/3parts/machinefile examples/cifar10/3parts/inception_train_val.prototxt.* /root/geeps/apps/caffe/examples/cifar10/3parts/
 

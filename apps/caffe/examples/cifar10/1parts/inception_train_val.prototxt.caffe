@@ -17,6 +17,7 @@ layer {
     backend: LMDB
   }
 }
+
 layer {
   name: "cifar"
   type: "Data"
