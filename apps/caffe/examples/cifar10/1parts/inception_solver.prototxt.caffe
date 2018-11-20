@@ -11,7 +11,7 @@ test_interval: 1000
 test_initialization: false
 snapshot_after_train: false
 # The base learning rate, momentum and the weight decay of the network.
-base_lr: 0.001
+base_lr: 0.0001
 momentum: 0.9
 weight_decay: 0.004
 # The learning rate policy
@@ -24,6 +24,6 @@ max_iter: 100000
 # snapshot intermediate results
 snapshot: 2000
 # snapshot_format: HDF5
-snapshot_prefix: "examples/cifar10/1parts/inception_snapshot"
+snapshot_prefix: "examples/cifar10/1parts/caffe_snapshot/inception_snapshot"
 # solver mode: CPU or GPU
 solver_mode: GPU
