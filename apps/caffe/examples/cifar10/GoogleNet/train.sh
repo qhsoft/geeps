@@ -1,0 +1,1 @@
+~/caffe/build/tools/caffe train --solver=examples/cifar10/GoogleNet/solver.prototxt 2>&1 | tee caffe_snapshot/log-data-googlenet
