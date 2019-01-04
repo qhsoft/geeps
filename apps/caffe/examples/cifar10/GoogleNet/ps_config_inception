@@ -3,5 +3,5 @@ slack=0
 gpu_memory_capacity=2000000000
 mm_warning_level=3
 layers_per_table=10
-debug=0
+debug=1
 

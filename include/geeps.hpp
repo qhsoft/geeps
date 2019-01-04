@@ -98,10 +98,17 @@ class GeePs {
   void FinishVirtualIteration();
 
   /* Interfaces for real access */
+  //读内存
   bool Read(int handle, RowData **buffer_ptr);
   void PostRead(int handle);
+  //写geeps管理的内存
   void PreUpdate(int handle, RowOpVal **buffer_ptr);
   void Update(int handle);
+
+  //读内存,内部调用ClientLib::read_batch()，
+  //通过参数stat和Read()进行区分，但是查到read_batch()中，
+  //发现stat参数传进来的值并没用上
+  //细看之下，发现是通过handle获得op_id，从而得到OpInfo数据，根据OpInfo的local数据进行区分
   bool LocalAccess(int handle, RowData **buffer_ptr);
   void PostLocalAccess(int handle);
   void Clock();

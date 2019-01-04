@@ -992,6 +992,8 @@ float SGDSolver<float>::ForwardBackwardUsingPs(
         shared_ptr<Blob<float> >& imb = imbs[imb_info.global_imb_id];
         RowData *read_buffer = NULL;
         ps_->LocalAccess(handle, &read_buffer);
+        
+        
         CHECK(!imb->check_gpu_data())
             << "layer " << layer_names[layer_id] << " has gpu data "
             << imb_info.global_imb_id;
@@ -1337,6 +1339,9 @@ float SGDSolver<float>::ForwardBackwardUsingPs(
         imb->gpu_data();
           /* Make sure everything is copied to GPU memory */
         imb->set_gpu_data(NULL, true);
+        if (print_) {
+            LOG(INFO) << "----------- Release imbs_to_release_bw GPU buffers: " << layer_names[layer_id] << " idx: " << i;
+        }
         ps_->PostLocalAccess(handle);
       }
       /* Release intermediate diff blobs */
@@ -1412,6 +1417,10 @@ float SGDSolver<float>::ForwardBackwardUsingPs(
             param_id < layer_info.param_infos.size(); param_id++) {
           shared_ptr<Blob<float> >& param = layer->blobs()[param_id];
           param->set_gpu_data(NULL, true);
+          if (print_) {
+            LOG(INFO) << "Release layer->blobs GPU buffers: " << layer_names[layer_id] << " param_id " << param_id;
+          }
+          
         }
         ps_->PostRead(layer_handles.bw_postread_handle);
         /* Release local updates history */

@@ -37,6 +37,7 @@ layer {
     backend: LMDB
   }
 }
+
 layer {
   name: "conv1/7x7_s2"
   type: "Convolution"

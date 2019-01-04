@@ -10,12 +10,12 @@ layer {
     phase: TRAIN
   }
   transform_param {
-    mean_file: "examples/cifar10/3parts/mean.binaryproto.%"
+    mean_file: "examples/cifar10/GoogleNet/mean.binaryproto.%"
     crop_size: 32
   }
   data_param {
-    source: "examples/cifar10/3parts/cifar10_train_lmdb.%"
-    batch_size: 128
+    source: "examples/cifar10/GoogleNet/cifar10_train_lmdb.%"
+    batch_size: 32
     backend: LMDB
   }
 }
@@ -28,12 +28,12 @@ layer {
     phase: TEST
   }
   transform_param {
-    mean_file: "examples/cifar10/1parts/mean.binaryproto.%"
+    mean_file: "examples/cifar10/GoogleNet/mean.binaryproto.%"
     crop_size: 32
   }
   data_param {
-    source: "examples/cifar10/1parts/cifar10_test_lmdb.%"
-    batch_size: 128
+    source: "examples/cifar10/GoogleNet/cifar10_test_lmdb.%"
+    batch_size: 32
     backend: LMDB
   }
 }
@@ -76,6 +76,7 @@ layer {
   type: "Pooling"
   bottom: "conv1/7x7_s2"
   top: "pool1/3x3_s2"
+  top: "pool1/3x3_s2_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -87,6 +88,7 @@ layer {
   type: "LRN"
   bottom: "pool1/3x3_s2"
   top: "pool1/norm1"
+  top: "pool1/norm1_temp"
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -163,6 +165,7 @@ layer {
   type: "LRN"
   bottom: "conv2/3x3"
   top: "conv2/norm2"
+  top: "conv2/norm2_temp"
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -174,6 +177,7 @@ layer {
   type: "Pooling"
   bottom: "conv2/norm2"
   top: "pool2/3x3_s2"
+  top: "pool2/3x3_s2_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -347,6 +351,7 @@ layer {
   type: "Pooling"
   bottom: "pool2/3x3_s2"
   top: "inception_3a/pool"
+  top: "inception_3a/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -562,6 +567,7 @@ layer {
   type: "Pooling"
   bottom: "inception_3a/output"
   top: "inception_3b/pool"
+  top: "inception_3b/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -615,6 +621,7 @@ layer {
   type: "Pooling"
   bottom: "inception_3b/output"
   top: "pool3/3x3_s2"
+  top: "pool3/3x3_s2_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -788,6 +795,7 @@ layer {
   type: "Pooling"
   bottom: "pool3/3x3_s2"
   top: "inception_4a/pool"
+  top: "inception_4a/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -841,6 +849,7 @@ layer {
   type: "Pooling"
   bottom: "inception_4a/output"
   top: "loss1/ave_pool"
+  #top: "loss1/ave_pool_temp"
   pooling_param {
     pool: AVE
     kernel_size: 2
@@ -1129,6 +1138,7 @@ layer {
   type: "Pooling"
   bottom: "inception_4a/output"
   top: "inception_4b/pool"
+  top: "inception_4b/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -1344,6 +1354,7 @@ layer {
   type: "Pooling"
   bottom: "inception_4b/output"
   top: "inception_4c/pool"
+  top: "inception_4c/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -1559,6 +1570,7 @@ layer {
   type: "Pooling"
   bottom: "inception_4c/output"
   top: "inception_4d/pool"
+  top: "inception_4d/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -1612,6 +1624,7 @@ layer {
   type: "Pooling"
   bottom: "inception_4d/output"
   top: "loss2/ave_pool"
+  #top: "loss2/ave_pool_temp"
   pooling_param {
     pool: AVE
     kernel_size: 2
@@ -1900,6 +1913,7 @@ layer {
   type: "Pooling"
   bottom: "inception_4d/output"
   top: "inception_4e/pool"
+  top: "inception_4e/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -1953,6 +1967,7 @@ layer {
   type: "Pooling"
   bottom: "inception_4e/output"
   top: "pool4/3x3_s2"
+  top: "pool4/3x3_s2_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -2126,6 +2141,7 @@ layer {
   type: "Pooling"
   bottom: "pool4/3x3_s2"
   top: "inception_5a/pool"
+  top: "inception_5a/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -2341,6 +2357,7 @@ layer {
   type: "Pooling"
   bottom: "inception_5a/output"
   top: "inception_5b/pool"
+  top: "inception_5b/pool_temp"
   pooling_param {
     pool: MAX
     kernel_size: 3
